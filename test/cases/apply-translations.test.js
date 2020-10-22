@@ -10,7 +10,7 @@ describe('apply-translations', () => {
 
     return processFile('apply-translations.code.js', translations)
       .then(({ file }) => {
-        translated = require.requireActual(file);
+        translated = require(file);
       });
   });
 

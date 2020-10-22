@@ -14,7 +14,8 @@ import makeLocalizeFunction from './MakeLocalizeFunction';
  * @constructor
  */
 class I18nPlugin {
-  constructor(localization, options, failOnMissing) {
+  constructor(localization, poptions, failOnMissing) {
+    let options = poptions;
     // Backward-compatiblility
     if (typeof options === 'string') {
       options = {
@@ -27,69 +28,76 @@ class I18nPlugin {
     }
 
     this.options = options || {};
-    this.localization = localization ? (typeof localization === 'function' ? localization : makeLocalizeFunction(localization, !!this.options.nested)) : null;
+    const plocalization = (typeof localization === 'function' ? localization : makeLocalizeFunction(localization, !!this.options.nested));
+    this.localization = localization ? plocalization : {};
     this.functionName = this.options.functionName || '__';
     this.failOnMissing = !!this.options.failOnMissing;
     this.hideMessage = this.options.hideMessage || false;
   }
 
   apply(compiler) {
+    const PLUGIN_NAME = 'I18nPlugin';
     const { localization, failOnMissing, hideMessage } = this; // eslint-disable-line no-unused-vars
     const name = this.functionName;
 
-    compiler.plugin('compilation', (compilation, params) => { // eslint-disable-line no-unused-vars
+    compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation, { normalModuleFactory }) => {
       compilation.dependencyFactories.set(ConstDependency, new NullFactory());
       compilation.dependencyTemplates.set(ConstDependency, new ConstDependency.Template());
-    });
-
-    compiler.plugin('compilation', (compilation, data) => {
-      data.normalModuleFactory.plugin('parser', (parser, options) => { // eslint-disable-line no-unused-vars
+      const handler = (parser) => { // eslint-disable-line no-unused-vars
         // should use function here instead of arrow function due to save the Tapable's context
-        parser.plugin(`call ${name}`, function i18nPlugin(expr) {
-          let param;
-          let defaultValue;
-          switch (expr.arguments.length) {
-            case 2:
-              param = this.evaluateExpression(expr.arguments[1]);
-              if (!param.isString()) return;
-              param = param.string;
-              defaultValue = this.evaluateExpression(expr.arguments[0]);
-              if (!defaultValue.isString()) return;
-              defaultValue = defaultValue.string;
-              break;
-            case 1:
-              param = this.evaluateExpression(expr.arguments[0]);
-              if (!param.isString()) return;
-              defaultValue = param = param.string;
-              break;
-            default:
-              return;
-          }
-          let result = localization ? localization(param) : defaultValue;
-
-          if (typeof result === 'undefined') {
-            let error = this.state.module[__dirname];
-            if (!error) {
-              error = new MissingLocalizationError(this.state.module, param, defaultValue);
-              this.state.module[__dirname] = error;
-
-              if (failOnMissing) {
-                this.state.module.errors.push(error);
-              } else if (!hideMessage) {
-                this.state.module.warnings.push(error);
-              }
-            } else if (!error.requests.includes(param)) {
-              error.add(param, defaultValue);
+        parser.hooks.call
+          .for(name)
+          .tap(`call ${name}`, (expr) => {
+            let param;
+            let defaultValue;
+            switch (expr.arguments.length) {
+              case 2:
+                param = expr.arguments[1].value;
+                if (typeof param !== 'string') return;
+                defaultValue = expr.arguments[0].value;
+                if (typeof defaultValue !== 'string') return;
+                break;
+              case 1:
+                param = expr.arguments[0].value;
+                if (typeof param !== 'string') return;
+                defaultValue = param;
+                break;
+              default:
+                return;
             }
-            result = defaultValue;
-          }
+            let result = localization ? localization(param) : defaultValue;
+            if (typeof result === 'undefined') {
+              let error = parser.state.module[__dirname];
+              if (!error) {
+                error = new MissingLocalizationError(parser.state.module, param, defaultValue);
+                parser.state.module[__dirname] = error;
 
-          const dep = new ConstDependency(JSON.stringify(result), expr.range);
-          dep.loc = expr.loc;
-          this.state.current.addDependency(dep);
-          return true;
-        });
-      });
+                if (failOnMissing) {
+                  parser.state.module.errors.push(error);
+                } else if (!hideMessage) {
+                  parser.state.module.warnings.push(error);
+                }
+              } else if (!error.requests.includes(param)) {
+                error.add(param, defaultValue);
+              }
+              result = defaultValue;
+            }
+
+            const dep = new ConstDependency(JSON.stringify(result), expr.range);
+            dep.loc = expr.loc;
+            parser.state.current.addDependency(dep);
+            return true;
+          });
+      };
+      normalModuleFactory.hooks.parser
+        .for('javascript/auto')
+        .tap(PLUGIN_NAME, handler);
+      normalModuleFactory.hooks.parser
+        .for('javascript/dynamic')
+        .tap(PLUGIN_NAME, handler);
+      normalModuleFactory.hooks.parser
+        .for('javascript/esm')
+        .tap(PLUGIN_NAME, handler);
     });
   }
 }

@@ -14,7 +14,7 @@ describe('options.functionName', () => {
 
       return processFile('opts-function-name.code.js', translations, options)
         .then(({ file }) => {
-          translated = require.requireActual(file);
+          translated = require(file);
         });
     });
 
@@ -34,7 +34,7 @@ describe('options.functionName', () => {
 
       return processFile('opts-function-name.code.js', translations, options)
         .then(({ file }) => {
-          translated = require.requireActual(file);
+          translated = require(file);
         });
     });
 

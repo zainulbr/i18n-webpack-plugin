@@ -4,11 +4,13 @@
     "import/no-unresolved": 0,
     "import/extensions": 0,
     "no-plusplus": 1,
-    "consistent-return": 1,
+    "consistent-return": 0,
     "no-multi-assign": 1,
-    "no-param-reassign": 1,
+    "no-param-reassign": 0,
     "prefer-destructuring": 1,
     "no-nested-ternary": 1,
-    "prefer-rest-params": 1
+    "prefer-rest-params": 1,
+    "global-require":0,
+    "import/no-dynamic-require":0
   }
 }

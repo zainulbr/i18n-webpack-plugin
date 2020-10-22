@@ -25,15 +25,15 @@ function makeLocalizeFunction(localization, nested) {
  *
  * @returns {*}
  */
-function byString(localization, nestedKey) {
+function byString(plocalization, nestedKey) {
   // remove a leading dot and split by dot
   const keys = nestedKey.replace(/^\./, '').split('.');
-
+  let localization = plocalization;
   // loop through the keys to find the nested value
-  for (let i = 0, length = keys.length; i < length; ++i) {
+  for (let i = 0, { length } = keys; i < length; ++i) {
     const key = keys[i];
 
-    if (!(key in localization)) { return; }
+    if (!(key in localization)) { return undefined; }
 
     localization = localization[key];
   }
