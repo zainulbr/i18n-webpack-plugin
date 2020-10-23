@@ -1,11 +1,19 @@
 {
-  "name": "i18n-webpack-plugin",
+  "name": "@zainulbr/i18n-webpack-plugin",
   "version": "2.0.0",
-  "author": "Tobias Koppers @sokra",
-  "description": "Embed localization into your bundle",
+  "author": "Zainul Bahar",
+  "description": "Rewrite original embed localization into your bundle with support webpack 5",
   "main": "dist/cjs.js",
   "files": [
     "dist"
+  ],
+  "keywords": [
+    "webpack",
+    "webpack5",
+    "webpack-plugin",
+    "i18n",
+    "translation",
+    "internationalization"
   ],
   "license": "MIT",
   "scripts": {
@@ -67,10 +75,10 @@
   "homepage": "https://webpack.js.org",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/webpack-contrib/i18n-webpack-plugin.git"
+    "url": "git+https://github.com/zainulbr/i18n-webpack-plugin.git"
   },
   "bugs": {
-    "url": "https://github.com/webpack-contrib/i18n-webpack-plugin/issues"
+    "url": "https://github.com/zainulbr/i18n-webpack-plugin/issues"
   },
   "pre-commit": "lint-staged",
   "lint-staged": {
