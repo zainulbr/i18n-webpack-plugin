@@ -16,16 +16,54 @@
 
 <h2 align="center">Install</h2>
 
+npm
 ```bash
-npm i -D i18n-webpack-plugin
+npm i -D @zainulbr/i18n-webpack-plugin
+```
+yarn
+```bash
+yarn add -D @zainulbr/i18n-webpack-plugin
 ```
 
 <h2 align="center">Usage</h2>
 
 This plugin creates bundles with translations baked in. So you can serve the translated bundle to your clients.
+Example:
+```
+console.log(__("Hello World"));
+console.log(__("Missing Text"));
+```
+```
+var path = require("path");
+var I18nPlugin = require("@zainulbr/i18n-webpack-plugin");
+var languages = {
+	"en": null,
+	"de": require("./de.json")
+};
+module.exports = Object.keys(languages).map(function(language) {
+	return {
+		name: language,
+		// mode: "development || "production",
+		entry: "./example",
+		output: {
+			path: path.join(__dirname, "dist"),
+			filename: language + ".output.js"
+		},
+		plugins: [
+			new I18nPlugin(
+				languages[language]
+			)
+		]
+	};
+});
+```
 
-see [webpack/webpack/examples/i18n](https://github.com/webpack/webpack/tree/master/examples/i18n).
-
+```
+{
+	"Hello World": "Hallo Welt"
+}
+```
+original [example](https://github.com/webpack/webpack/tree/v4.0.0/examples/i18n) from un maintenance repo 
 <h2 align="center">Options</h2>
 
 ```
@@ -72,17 +110,17 @@ plugins: [
   <tbody>
 </table>
 
-[npm]: https://img.shields.io/npm/v/i18n-webpack-plugin.svg
-[npm-url]: https://npmjs.com/package/i18n-webpack-plugin
+[npm]: https://img.shields.io/npm/v/@zainulbr/i18n-webpack-plugin.svg
+[npm-url]: https://www.npmjs.com/package/@zainulbr/i18n-webpack-plugin
 
-[deps]: https://david-dm.org/webpack-contrib/i18n-webpack-plugin.svg
-[deps-url]: https://david-dm.org/webpack-contrib/i18n-webpack-plugin
+[deps]: https://david-dm.org/zainulbr/i18n-webpack-plugin.svg
+[deps-url]: https://david-dm.org/zainulbr/i18n-webpack-plugin
 
 [chat]: https://img.shields.io/badge/gitter-webpack%2Fwebpack-brightgreen.svg
 [chat-url]: https://gitter.im/webpack/webpack
 
-[test]: http://img.shields.io/travis/webpack-contrib/i18n-webpack-plugin.svg
-[test-url]: https://travis-ci.org/webpack-contrib/i18n-webpack-plugin
+[test]: http://img.shields.io/travis/zainulbr/i18n-webpack-plugin.svg
+[test-url]: https://travis-ci.org/github/zainulbr/i18n-webpack-plugin
 
-[cover]: https://codecov.io/gh/webpack-contrib/i18n-webpack-plugin/branch/master/graph/badge.svg
-[cover-url]: https://codecov.io/gh/webpack-contrib/i18n-webpack-plugin
+[cover]: https://codecov.io/gh/zainulbr/i18n-webpack-plugin/branch/master/graph/badge.svg
+[cover-url]: https://codecov.io/gh/zainulbr/i18n-webpack-plugin
