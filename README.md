@@ -63,6 +63,7 @@ module.exports = Object.keys(languages).map(function(language) {
 	"Hello World": "Hallo Welt"
 }
 ```
+current [example](https://github.com/zainulbr/i18n-webpack-plugin/tree/master/example). 
 original [example](https://github.com/webpack/webpack/tree/v4.0.0/examples/i18n) from un maintenance repo 
 <h2 align="center">Options</h2>
 

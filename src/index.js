@@ -65,7 +65,7 @@ class I18nPlugin {
               default:
                 return;
             }
-            let result = localization ? localization(param) : defaultValue;
+            let result = localization && typeof localization === 'function' ? localization(param) : defaultValue;
             if (typeof result === 'undefined') {
               let error = parser.state.module[__dirname];
               if (!error) {

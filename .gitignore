@@ -7,12 +7,12 @@ yarn-debug.log*
 /dist
 /local
 /reports
-/node_modules
+node_modules
 .DS_Store
 Thumbs.db
 .idea
 .vscode
 *.sublime-project
 *.sublime-workspace
-
+/example
 /test/cases/*.tmp.js
