@@ -33,7 +33,7 @@ function byString(plocalization, nestedKey) {
   for (let i = 0, { length } = keys; i < length; ++i) {
     const key = keys[i];
 
-    if (!(key in localization)) { return undefined; }
+    if (!(key in localization)) { return; }
 
     localization = localization[key];
   }
