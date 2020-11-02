@@ -1,6 +1,6 @@
 {
   "name": "@zainulbr/i18n-webpack-plugin",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "author": "Zainul Bahar",
   "description": "Rewrite original embed localization into your bundle with support webpack 5",
   "main": "dist/cjs.js",
