@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.3](https://github.com/zainulbr/i18n-webpack-plugin/compare/v2.0.1...v2.0.3) (2020-11-04)
+
+
+### Bug Fixes
+
+* deps and engine node ([#4](https://github.com/zainulbr/i18n-webpack-plugin/issues/4)) ([9eab749](https://github.com/zainulbr/i18n-webpack-plugin/commit/9eab7494091870d48a1e7e03414518e257cc4e15))
+* update CI and example dependencies ([#3](https://github.com/zainulbr/i18n-webpack-plugin/issues/3)) ([738c5b0](https://github.com/zainulbr/i18n-webpack-plugin/commit/738c5b0b47ca216c07b0969b2b1926e47152db00))
+
 ### [2.0.2](https://github.com/zainulbr/i18n-webpack-plugin/compare/v2.0.1...v2.0.2) (2020-11-02)
 
 
