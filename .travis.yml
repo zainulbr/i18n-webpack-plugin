@@ -11,23 +11,27 @@ jobs:
   include:
     - &test-latest
       stage: Webpack latest
-      nodejs: 12
+      nodejs: 6
       env: WEBPACK_VERSION=latest JOB_PART=test
       script: yarn travis:$JOB_PART
     - <<: *test-latest
-      node_js: 12
+      nodejs: 6
       env: WEBPACK_VERSION=latest JOB_PART=lint
       script: yarn travis:$JOB_PART
     - <<: *test-latest
-      node_js: 12
+      nodejs: 6
       env: WEBPACK_VERSION=latest JOB_PART=coverage
       script: yarn travis:$JOB_PART
       after_success: 'bash <(curl -s https://codecov.io/bash)'
-    # - stage: Webpack canary
-    #   before_script: npm i --no-save git://github.com/webpack/webpack.git#master
-    #   script: yarn travis:$JOB_PART
-    #   node_js: 12
-    #   env: WEBPACK_VERSION=canary JOB_PART=test
+    - stage: Webpack 4
+      script: yarn travis:$JOB_PART
+      nodejs: 6
+      env: WEBPACK_VERSION=4 JOB_PART=test
+    - stage: Webpack 3
+      script: yarn travis:$JOB_PART
+      nodejs: 6
+      env: WEBPACK_VERSION=3 JOB_PART=test
+
 before_install:
   - 'if [[ `npm -v` != 6* ]]; then npm i -g npm@^6.14.1; fi'
   - nvm --version

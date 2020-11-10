@@ -59,7 +59,7 @@
     "webpack-defaults": "^4.0.0"
   },
   "peerDependencies": {
-    "webpack": "*"
+    "webpack": "^2.0.0 || >= 3.0.0-rc.0 || ^3.0.0"
   },
   "jest": {
     "roots": [
@@ -71,7 +71,7 @@
     ]
   },
   "engines": {
-    "node": ">=12"
+    "node": ">= 4.3 < 5.0.0 || >= 5.10"
   },
   "homepage": "https://webpack.js.org",
   "repository": {
